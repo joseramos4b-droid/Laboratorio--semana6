@@ -1,0 +1,21 @@
+clc;
+clear;
+format long;
+
+x = [1.5 1.9 2.1 2.4 2.6 3.1];
+y = [1.0628 1.3961 1.5432 1.7349 1.8423 2.0397];
+
+x0 = 2.25;
+
+p = polyfit(x, y, length(x)-1);
+
+dp = polyder(p);
+
+ddp = polyder(dp);
+fp  = polyval(dp, x0);
+fpp = polyval(ddp, x0);
+
+fprintf(' RESULTADOS\n');
+
+fprintf('f''(%.2f)  = %.10f\n', x0, fp);
+fprintf('f''''(%.2f) = %.10f\n', x0, fpp);
