@@ -1,0 +1,68 @@
+clc;
+clear;
+format long;
+
+f = @(x) exp(x);
+x = 2;
+fp_real  = exp(2);   
+fpp_real = exp(2);  
+
+h_values = [0.5 0.1 0.05 0.01 0.005 0.001];
+fprintf('          PRIMERA DERIVADA f''(2)\n');
+
+fprintf('\n%-10s %-15s %-15s %-15s %-15s\n', ...
+'h','Aprox(6 digitos)','Error(6 digitos)','Aprox(8 digitos)','Error(8 digitos)');
+
+for h = h_values
+
+    f6_xh = round(f(x+h),6,'significant');
+    f6_x  = round(f(x),6,'significant');
+
+    fp6 = round((f6_xh - f6_x)/h,6,'significant');
+
+    error6 = abs(fp_real - fp6);
+    
+    f8_xh = round(f(x+h),8,'significant');
+    f8_x  = round(f(x),8,'significant');
+
+    fp8 = round((f8_xh - f8_x)/h,8,'significant');
+
+    error8 = abs(fp_real - fp8);
+
+    fprintf('%-10g %-15.8f %-15.8e %-15.8f %-15.8e\n', ...
+        h, fp6, error6, fp8, error8);
+
+end
+
+fprintf('          SEGUNDA DERIVADA f''''(2)\n');
+
+fprintf('\n%-10s %-15s %-15s %-15s %-15s\n', ...
+'h','Aprox(6 digitos)','Error(6 digitos)','Aprox(8 digitos)','Error(8 digitos)');
+
+for h = h_values
+    
+    f6_xph = round(f(x+h),6,'significant');
+    f6_x   = round(f(x),6,'significant');
+    f6_xmh = round(f(x-h),6,'significant');
+
+    fpp6 = round((f6_xph - 2*f6_x + f6_xmh)/(h^2), ...
+                 6,'significant');
+
+    error6 = abs(fpp_real - fpp6);
+    
+    f8_xph = round(f(x+h),8,'significant');
+    f8_x   = round(f(x),8,'significant');
+    f8_xmh = round(f(x-h),8,'significant');
+
+    fpp8 = round((f8_xph - 2*f8_x + f8_xmh)/(h^2), ...
+                 8,'significant');
+
+    error8 = abs(fpp_real - fpp8);
+
+    fprintf('%-10g %-15.8f %-15.8e %-15.8f %-15.8e\n', ...
+        h, fpp6, error6, fpp8, error8);
+
+end
+
+fprintf('\n\nValor exacto de f''(2)  = %.12f\n', fp_real);
+fprintf('Valor exacto de f''''(2) = %.12f\n', fpp_real);
